@@ -10,6 +10,22 @@ class LandingPage():
     def __init__(self, appdelegate):
         self.appdelegate = appdelegate
 
+
+    """
+    "" @name: Ensure Admin is Initated
+    "" @author: Craig Harris
+    "" @description: Method to setup the admin area.
+    "" @prams: None
+    "" @return: Void
+    """
+
+    def ensure_admin_is_initated(self):
+        # Re-initiate the admin class
+        self.appdelegate.admin_page.__init__(self.appdelegate)
+        # Start drawing the admin class
+        self.appdelegate.admin_page.draw()
+
+
     """
     "" @name: Help (Page)
     "" @author: Dhiren Solanki and Matt Thompson
@@ -128,5 +144,74 @@ class LandingPage():
         home_btn['command'] = lambda: self.appdelegate.landing_page.draw()
         home_btn.grid(row=57, column = 0, columnspan=3, sticky=SW, pady=[0, 20])
 
+    """
+    "" @name: Draw
+    "" @author: Craig Harris
+    "" @description: Method to draw Landing Page
+    "" @prams: None
+    "" @return: Void
+    """
 
+    def draw(self):
+        # Clean UI
+        self.appdelegate.flush_ui()
+
+        # Create admin button to navigate to admin page
+        admin_btn = Button(self.appdelegate, text="Admin", style="Admin.TButton")
+        admin_btn['command'] = self.ensure_admin_is_initated
+        admin_btn.place(x=20,y=20)
+
+        # Configure positioning
+        self.appdelegate.grid_rowconfigure(4, weight=0)
+        self.appdelegate.grid_rowconfigure(5, weight=0)
+      
+        self.appdelegate.pack(fill = BOTH, expand=1)
+        self.appdelegate.columnconfigure(1, weight=1)
+        
+        # Set parent window title      
+        self.appdelegate.parent.title("Cardiff Logic Test")
+
+        # Create Test and Questionnaire buttons
+        start_test_btn = Button(self.appdelegate, text="Start Test")
+        questionnaire_btn = Button(self.appdelegate, text="Questionnaire")
+        
+        # Check if user has logged in. If not redirect user to details page.
+        if not self.appdelegate.user_logged_in: 
+
+            start_test_btn['command'] = lambda: self.appdelegate.register_page.draw()
+            questionnaire_btn['command'] = lambda: self.appdelegate.register_page.draw()
+
+        else:
+            start_test_btn['command'] = lambda: self.appdelegate.continuity_handler.start()
+            questionnaire_btn['command'] = lambda: self.appdelegate.questionnaire.draw()
+
+        # Create Practice Test button. There is no check here as user does not need to enter details to use Practice Test function.
+        start_practice_btn = Button(self.appdelegate, text="Start Practice")
+        start_practice_btn['command'] = lambda: self.appdelegate.continuity_handler.start_practice()
+
+        # Create Help button. There is no check here as user does not need to enter details to use Help function.
+        help_btn = Button(self.appdelegate, text="Help")
+        help_btn['command'] = self.help        
+
+        # Create Enter Details button. If user is logged in then replace button with End Session to log out.
+        if not self.appdelegate.user_logged_in: 
+            user_details_btn = Button(self.appdelegate, text="User Details")
+            user_details_btn['command'] = lambda: self.appdelegate.register_page.draw()
+           
+        else:
+            user_details_btn = Button(self.appdelegate, text="End Session", command = self.appdelegate.end_session)
+        
+        # Create Quit button to close the program.    
+        quit_btn = Button(self.appdelegate, text="Quit", style='Green.TButton')
+        quit_btn['command'] = lambda: self.appdelegate.quit()
+
+        # Set button positions
+        start_test_btn.grid(row=2, column=1, pady=[300,0])
+        start_practice_btn.grid(row=3, column=1, pady=[5,0])
+        questionnaire_btn.grid(row=4, column=1, pady=[5,0])
+        help_btn.grid(row=5, column=1, pady=[5,0])
+        user_details_btn.grid(row=6, column=1, pady=[5,0])
+        quit_btn.grid(row=7, column=1, pady=[5,0])      
+
+        self.appdelegate.update()
 
