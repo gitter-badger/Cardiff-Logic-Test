@@ -12,7 +12,7 @@ class LandingPage():
 
     """
     "" @name: Help (Page)
-    "" @author: Dhiren Solanki
+    "" @author: Dhiren Solanki and Matt Thompson
     "" @description: Method to render Help Page
     "" @prams: None
     "" @return: void
@@ -78,4 +78,55 @@ class LandingPage():
         s15 = Label(self.appdelegate, text = '15. You can select the "Home" button to go back to the Home page.', font=("Helvetica",self.appdelegate.font_size_for_os(12)))
         s15.grid(row=32, column = 1, rowspan= 2, sticky= NW)
 
+        #Create widgets for questionnaire help steps
+
+        s16 = Label(self.appdelegate, text = '1. If you would like to sit the questionnaire, select the "User Details" button.', font=("Helvetica",self.appdelegate.font_size_for_os(12)))
+        s16.grid(row=36, column = 1, rowspan= 2, sticky= NW)
+
+        s17 = Label(self.appdelegate, text = '2. Enter your details into the correct fields.', font=("Helvetica",self.appdelegate.font_size_for_os(12)))
+        s17.grid(row=38, column = 1, rowspan= 2, sticky= NW)
+
+        s18 = Label(self.appdelegate, text = '3. Select the "Submit" button to continue.', font=("Helvetica",self.appdelegate.font_size_for_os(12)))
+        s18.grid(row=40, column = 1, rowspan= 2, sticky= NW)
+
+        s19 = Label(self.appdelegate, text = '4. If you wish to start the questionnaire then select the "Questionnaire" button.', font=("Helvetica",self.appdelegate.font_size_for_os(12)))
+        s19.grid(row=42, column = 1, rowspan= 2, sticky= NW)
+
+        s20 = Label(self.appdelegate, text = '5. Select which subject you enjoy most using the mouse.', font=("Helvetica",self.appdelegate.font_size_for_os(12)))
+        s20.grid(row=44, column = 1, rowspan= 2, sticky= NW)
+
+        s21 = Label(self.appdelegate, text = '6. Select your answers to the questions using the mouse.', font=("Helvetica",self.appdelegate.font_size_for_os(12)))
+        s21.grid(row=46, column = 1, rowspan= 2, sticky= NW)
+
+        s22 = Label(self.appdelegate, text = '7. You can view your result by selecting the "Results" button, or reset the questionnaire using the "Reset" button.', font=("Helvetica",self.appdelegate.font_size_for_os(12)))
+        s22.grid(row=48, column = 1, rowspan= 2, sticky= NW)
         
+        s23 = Label(self.appdelegate, text = '8. On the results page you can see your recommeneded course name.', font=("Helvetica",self.appdelegate.font_size_for_os(12)))
+        s23.grid(row=50, column = 1, rowspan= 2, sticky= NW)
+
+        s24 = Label(self.appdelegate, text = '9. You can select the "Home" button to go back to the Home page.', font=("Helvetica",self.appdelegate.font_size_for_os(12)))
+        s24.grid(row=52, column = 1, rowspan= 2, sticky= NW)
+
+        #Create widgets for exit software
+
+        s25 = Label(self.appdelegate, text = 'You can exit the software at anytime by selecting the "Quit" button.', font=("Helvetica",self.appdelegate.font_size_for_os(12)))
+        s25.grid(row=56, column = 1, rowspan= 2, sticky= NW)
+
+        #Titles
+
+        logic = Label(self.appdelegate, text = 'How to complete the Logic Reasoning Test:', font=("Helvetica",self.appdelegate.font_size_for_os(14), "bold"))
+        logic.grid(row=3, column = 1, rowspan= 1, pady=[40,20])
+
+        que = Label(self.appdelegate, text = 'How to complete the Questionnaire:', font=("Helvetica",self.appdelegate.font_size_for_os(14), "bold"))
+        que.grid(row=34, column = 1, rowspan= 1, pady=[10,10])
+
+        exit = Label(self.appdelegate, text = 'Exiting the software:', font=("Helvetica",self.appdelegate.font_size_for_os(14), "bold"))
+        exit.grid(row=54, column = 1, rowspan= 1, pady=[10,10])
+
+        # Create home button and set destination to landing page.
+        home_btn = Button(self.appdelegate, text="Home")
+        home_btn['command'] = lambda: self.appdelegate.landing_page.draw()
+        home_btn.grid(row=57, column = 0, columnspan=3, sticky=SW, pady=[0, 20])
+
+
+

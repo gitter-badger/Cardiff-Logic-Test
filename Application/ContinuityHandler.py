@@ -216,4 +216,90 @@ class ContinuityHandler():
 
 		self.initiate_question()
 
+	"""
+	"" @name: Initate Question
+	"" @author: Matt Thompson
+	"" @description: Method to start showing a question
+	"" @prams: None
+	"" @return: Void
+	"""
 	
+	def initiate_question(self):
+		# Initiates the questions, decides which question to show next
+		self.set_flags()
+		self.question_count += 1
+		# checks if the next question will be verbal or pictorial    
+		if self.is_next_verbal():
+			self.appdelegate.test.verbalQuestion()  
+		else:
+			self.appdelegate.test.graphQuestion()
+
+	"""
+	"" @name: Set Flags
+	"" @author: Matt Thompson
+	"" @description: 
+	"" @prams: None
+	"" @return: Void
+	"""
+
+	def set_flags(self):
+
+		self.appdelegate.test.isLast = 0
+		self.appdelegate.test.isFirst = 0
+		# Checks if its the last question
+		if self.is_last():       
+			self.appdelegate.test.isLast = 1
+		# Checks if its the first question
+		if self.question_count == 0:
+			self.appdelegate.test.isFirst = 1
+
+	"""
+	"" @name: Is the next question verbal
+	"" @author: Matt Thompson
+	"" @description: Checks if the next question is verbal
+	"" @prams: Must be on the test
+	"" @return: Void
+	"""
+
+	def is_next_verbal(self):
+		# Check if the question type is verbal or pictorial
+		if self.question_type == "Verbal Question":
+			self.question_type = "Graph Question"
+		# Changes from verbal to pictorial or vice versa 
+		else:
+			self.question_type = "Verbal Question"
+			self.appdelegate.parent.title("%s | %s" % (self.test_type_textual(), self.question_type))
+		if self.question_type == "Verbal Question":
+			return True
+		return False
+
+	"""
+	"" @name: Is this the last question
+	"" @author: Matt Thompson
+	"" @description: checks if the test is on the last question 
+	"" @prams: Must be on the practice test or full test
+	"" @return: Void
+	"""
+
+
+	def is_last(self): 
+		# Checks whether the question is practice or the main test and then checks to see if it is the last question
+		if self.appdelegate.test.isPractice and self.question_count == 1 or self.question_count == 5:
+		# If its practice its checks to see if the question count is 1 which would be the last and checks to see if the main test value is 5  
+			return True
+		return False
+
+	"""
+	"" @name: Is Finished
+	"" @author: Matt Thompson
+	"" @description: Checks the test to see if it has finished
+	"" @prams: Must be on the practice test or full test
+	"" @return: Void
+	"""
+
+	def is_finished(self):
+		 #Checks whether the question is practice or the main test and then checks to see if it is the last question
+		if self.appdelegate.test.isPractice and self.question_count == 2 or self.question_count == 6:
+			 #  If its practice its checks to see if the question count is 2 which would be the end and checks to see if the main test value is 6
+			return True
+		return False

@@ -251,4 +251,201 @@ class Test():
         home_btn.grid(row=5, column=0, pady=[5,30], sticky=S)
         next_btn.grid(row=5, column=3, pady=[5,30], sticky=S)
     
-    
+    """
+    "" @name: Verbal Question
+    "" @author: Matthew Thompson
+    "" @description: Method to display verbal type questions
+    "" @prams: Is first, Is last
+    "" @return: none
+    """
+
+    def verbalQuestion(self, isFirst=0, isLast=0):
+
+        """
+        "" @name: Answer
+        "" @author: Matthew Thompson
+        "" @description: 
+        "" @prams: 
+        "" @return: 
+        """ 
+
+        def answer(index):
+             # Checks to see if the answer chosen is correct based on what question it is
+            self.appdelegate.continuity_handler.answer(question['question'], question['answers'][index], question['answers'][question['correct']])
+
+        """
+        "" @name: Skip Tupe
+        "" @author: Matthew Thompson
+        "" @description: Method to create tuple to pass data to continuity handler
+        "" @prams: None
+        "" @return: Void
+        """
+
+        def skip_tuple():
+            #Skips the question and inputs an incorrect answer
+            return dict({'correct_answer': question['answers'][question['correct']], 'question': question['question']})  
+        
+        self.appdelegate.flush_ui()
+        self.appdelegate.overlay_user_profile()
+        # Configures the rows where the ui should be
+        self.appdelegate.grid_rowconfigure(4, weight=0)
+        self.appdelegate.grid_rowconfigure(5, weight=100)
+        # Checks if the question is practice and then sets it to verbal question, else does a random choice question
+        if self.isPractice: 
+            question = self.verbal_reasoning[3]
+        else:
+            question = random.choice([n for n in self.verbal_reasoning[:3] if n not in self.complement])
+        
+        self.complement.append(question)
+        # Sets the answer to the question
+        answers = question['answers']
+        # Sets the description text to the question
+        description_text = question['question']
+        # Sets the background, text size, border, width and other sizes of the description label
+        description_lbl = Label(self.appdelegate, background="#ECF0F1", text = description_text, border=6, width=70, wraplength=500,anchor=CENTER, justify=CENTER)
+
+        if self.appdelegate.isWindows:
+            #sets wrap length if platform is windows
+            description_lbl.config(wraplength=400)
+
+        # Set the style of the answer buttons and adds the buttons to the frame
+        answer_one_btn = Button(self.appdelegate, style="Wide.TButton", text = answers[0])
+        answer_one_btn['command'] = lambda: answer(0)
+
+        answer_two_btn = Button(self.appdelegate, style="Wide.TButton", text = answers[1])
+        answer_two_btn['command'] = lambda: answer(1)
+
+        answer_three_btn = Button(self.appdelegate, style="Wide.TButton", text = answers[2])
+        answer_three_btn['command'] = lambda: answer(2)
+
+        answer_four_btn = Button(self.appdelegate, style="Wide.TButton", text = answers[3])
+        answer_four_btn['command'] = lambda: answer(3)
+
+
+        if self.isLast:
+            # If the test is on the last question it shows the Home button
+            home_btn = Button(self.appdelegate, text="Home")
+            home_btn['command'] = lambda: self.appdelegate.landing_page.draw()
+            # If the test is on the last question it shows the Skip & Finish button
+            next_btn = Button(self.appdelegate, style='Green.TButton', text="Skip & Finish")
+            next_btn['command'] = lambda: self.appdelegate.continuity_handler.skip(skip_tuple())
+        else:
+            # If the test is on any other question other than the last it shows the quit button instead of the home button
+            home_btn = Button(self.appdelegate, text="Quit")
+            home_btn['command'] = self.appdelegate.continuity_handler.quit
+            # If the test is on any other question other than the last it shows the Skip button instead of the Skip & Finish button
+            next_btn = Button(self.appdelegate, text="Skip")
+            next_btn['command'] = lambda: self.appdelegate.continuity_handler.skip(skip_tuple())
+
+        # Sets the layout to the correct column
+        self.appdelegate.grid_columnconfigure(0, weight=1)
+        self.appdelegate.grid_columnconfigure(1, weight=1)
+        self.appdelegate.grid_columnconfigure(2, weight=1)
+        self.appdelegate.grid_columnconfigure(3, weight=1)
+        # Sets the column and columnspan of the description grid
+        description_lbl.grid(row=0, column=1, columnspan= 2, pady=[260,0])
+
+        # Sets the column and columnspan of the description grid
+        answer_one_btn.grid(row=1, column=1, columnspan=2,pady=[5,0])
+        answer_two_btn.grid(row=2, column=1, columnspan=2, pady=[5,0])
+        answer_three_btn.grid(row=3, column=1, columnspan=2,pady=[5,0])    
+        answer_four_btn.grid(row=4, column=1, columnspan=2,pady=[5,0])
+        # Sets the column and columnspan of the buttons
+        home_btn.grid(row=5, column=0, pady=[5,30], sticky=SW)
+        next_btn.grid(row=5, column=3, pady=[5,30], sticky=SE)
+
+
+    """
+    "" @name: Results
+    "" @author: Matthew Thompson
+    "" @description: Method to display test results
+    "" @prams: textual type of test, questions
+    "" @return: Void
+    """        
+
+    def results(self, questions, textual_type):
+
+        def _on_mousewheel(event):
+            # Catch OS compaibility errors from yview_scroll method
+            try: 
+                self.canvas.yview_scroll(-1*(event.delta), "units")
+            except:
+                # cleanly handle error
+                print "Scroll OS interoperability error, trying `-1*(event.delta)` - units."
+
+        # Clear GUI
+        self.appdelegate.flush_ui()
+        # Create canvas
+        self.canvas = Canvas(self.appdelegate, bg='#ECF0F1', width=1024, height=800, bd=0, highlightthickness=0)
+        # Creates vertical scrollbar
+        self.vbar = Scrollbar(self.appdelegate, orient=VERTICAL)
+        # Link canvas to scrollbar
+        self.vbar.config(command=self.canvas.yview)
+        #Sets where the scrollbar is placed
+        self.vbar.pack(side=RIGHT,fill=Y)
+        # Pack canvas into the page 
+        self.canvas.pack(side = LEFT)
+        # Link scrollbar
+        self.canvas.config(yscrollcommand=self.vbar.set)
+        # Configure scrollable area
+        self.canvas.config(scrollregion=(0,0, 1024, 2000))
+
+        # Bind mouse scroll
+        self.canvas.bind_all("<MouseWheel>", _on_mousewheel)
+        
+        # Set a row height 
+        row = 160
+        # Vertical offset
+        x = 120
+        # Horizontal offset
+        y = 0
+
+        # Create results label
+        self.canvas.create_text(y + 170, x + 40, text="Results", anchor="nw",font=("Helvetica",self.appdelegate.font_size_for_os(40)), fill="#2c3e50", activefill="#2c3e50")
+            
+        # Increment vertical offset
+        x += 100
+        # Clear question index
+        i=0
+        # Loop over questions
+        for question in questions:
+            # Increment question index
+            i += 1
+            # question label
+            t = self.canvas.create_text(y + 175, x + 40, text=question['question'], width=800, anchor="nw",font=("Helvetica",self.appdelegate.font_size_for_os(15)), fill="#2c3e50", activefill="#2c3e50")
+            # question level bounding box
+            b = self.canvas.bbox(t)
+            # Add height of label to vertical offset
+            x += int(b[3]) - int(b[1])
+            # Default Fill Colours
+            fill = "#1abc9c"
+            activefill = "#16a085"
+            # If the answer was incorrect
+            if question['answer'] != question['correct_answer']:
+                # Error Fill Colours
+                fill = "#EC6363"
+                activefill = "#c0392b"
+
+            # Question Index label
+            self.canvas.create_text(y + 45, x , text="%d." % i, anchor="nw",font=("Helvetica",self.appdelegate.font_size_for_os(100)), fill=fill, activefill=activefill)
+            # Answer title 
+            self.canvas.create_text(y + 175, x + 45, text="Answer:", width=800, anchor="nw",font=("Helvetica",self.appdelegate.font_size_for_os(15), "bold"), fill="#2c3e50", activefill="#2c3e50")
+            # user answer label
+            self.canvas.create_text(y + 240, x + 45, text=question['answer'], width=800, anchor="nw",font=("Helvetica",self.appdelegate.font_size_for_os(15)), fill="#2c3e50", activefill="#2c3e50")
+            # Correct answer title label
+            self.canvas.create_text(y + 175, x + 65, text="Correct Answer:", width=800, anchor="nw",font=("Helvetica",self.appdelegate.font_size_for_os(15), "bold"), fill="#2c3e50", activefill="#2c3e50")
+            # Correct answer label
+            self.canvas.create_text(y + 297, x + 65, text=question['correct_answer'], width=800, anchor="nw",font=("Helvetica",self.appdelegate.font_size_for_os(15)), fill="#2c3e50", activefill="#2c3e50")
+            # Increment vertical hieght by the given local row height 
+            x += row
+
+        # Create home button
+        home_btn = Button(self.appdelegate, text="Home")
+        home_btn['command'] = lambda: self.appdelegate.landing_page.draw()
+        self.canvas.create_window(0, max(738, x + 50), anchor=NW, window=home_btn) # 800 - button = 758
+
+        # Configure canvas height 
+        self.canvas.config(height=800)
+        # Scroll Region
+        self.canvas.config(scrollregion=(0,0,1024,x + 110))
+
