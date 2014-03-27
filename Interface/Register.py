@@ -15,6 +15,53 @@ class RegisterPage():
         self.index_match = {}
 
     """
+    "" @name: Create User
+    "" @author: Daniel Koehler
+    "" @description: Method to insert user into database - This method should be called from a thread as it takes serious time to complete.
+    "" @prams: (String) First Name, (String) Surname, (String) Email Address, (Integer) Group ID. 
+    "" @return: Void
+    """
+
+    def create_user(self, firstName, surname, emailAddress, groupId):
+
+        
+        # Varible to contain gravatar image size
+        size = 80
+
+        # Query of the database where the email is the same as that used to register 
+        self.appdelegate.user_id = self.appdelegate.db.select("user", where="(`email_address` == '%s')" % emailAddress.lower())
+
+        # Create new user from data in passed arguments and assign the insert ID as a property of the AppDelegate Class
+        if not self.appdelegate.user_id:
+            self.appdelegate.user_id = self.appdelegate.db.insert("user", {
+                    'first_name': firstName,
+                    'type':'pupil', 
+                    'last_name': surname,
+                    'email_address': emailAddress.lower(),
+                    'group_id': groupId,
+                    'added_timestamp':str(time.time())
+                    })
+       
+        # Create the Gravatar URL by MD5ing the email address
+        gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(emailAddress.lower()).hexdigest() + ".jpg?"
+        gravatar_url += urllib.urlencode({'s':str(size),'d':403})
+
+        # This will throw an exception should the Gravatar url return a 403 or if there is no network connection
+        try:    
+            # Try to fetch the Image
+            urllib.urlretrieve(gravatar_url, os.path.join(self.appdelegate.relative_path, "Assets", "userprofile.jpg"))
+            # If the email is associated with Gravitar then the return image will now be in userprofile.jpg so lets open it
+            im = Image.open(os.path.join(self.appdelegate.relative_path, "Assets", "userprofile.jpg"))
+            # Create a PNG version
+            im.save(os.path.join(self.appdelegate.relative_path, "Assets", "userprofile.png"))
+            # Remove the JPEG
+            os.remove(os.path.join(self.appdelegate.relative_path, "Assets", "userprofile.jpg"))
+            # Set property of root class to denote a successful Gravatar image load.
+            self.appdelegate.user_has_gravatar = 1
+        except:
+            print "No network connection/User doesn't have Gravatar."
+    
+    """
     "" @name: Draw (Register Page)
     "" @author: Ryan Day
     "" @description: Method to draw Register Page
