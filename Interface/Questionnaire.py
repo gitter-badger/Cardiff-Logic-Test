@@ -117,7 +117,178 @@ class Questionnaire():
         # Receives inputed answer in list box when answer is selcted
         self.listbox_select.bind("<<ListboxSelect>>", self.on_listbox_select)
 
-    -
+    """
+    "" @name: Creates yes or no questions  
+    "" @author: Ryan Day
+    "" @description: A method to insert a label for questions that have yes or no answers
+    "" @prams: None
+    "" @return: Void
+    """
+
+    def create_y_or_n_q(self):
+
+        # Calls varQ1, to display radio buttons for question 1
+        self.varQ1 = IntVar()
+
+        # Calls varQ2, to display radio buttons for question 2
+        self.varQ2 = IntVar()
+
+        # Calls varQ3, to display radio buttons for question 3
+        self.varQ3 = IntVar()
+
+        # Calls varQ4, to display radio buttons for question 4
+        self.varQ4 = IntVar()
+
+        # Calls varQ5, to display radio buttons for question 5
+        self.varQ5 = IntVar()
+
+        # Calls varQ6, to display radio buttons for question 6
+        self.varQ6 = IntVar()
+
+        # Calls varQ7, to display radio buttons for question 7
+        self.varQ7 = IntVar()
+
+        # Calls varQ8, to display radio buttons for question 8
+        self.varQ8 = IntVar()
+
+        # Calls varQ9, to display radio buttons for question 9
+        self.varQ9 = IntVar()
+
+        # Calls varQ10, to display radio buttons for question 10
+        self.varQ10 = IntVar()
+
+        # Creates "Yes" label in row 3, column 6 with row span 1 
+        lblYes = Label(self.appdelegate, text = 'Yes', style="Questionnaire.TLabel")
+        lblYes.grid(row=3, column=6, rowspan=1)
+
+        # Creates "No" label in row 3, column 8 with row span 1 
+        lblNo = Label(self.appdelegate, text = 'No', style="Questionnaire.TLabel")
+        lblNo.grid(row=3, column=8, rowspan=1, sticky='w')
+
+        # calls radio_buttons to display radio buttons
+        self.radio_buttons()
+
+        # Creates label Q2 in row 4, collumn 0 with column span 6 and aligned to left
+        Q2 = Label(self.appdelegate, text = '2. Do you have any past experience of programming?', style="Questionnaire.TLabel")
+        Q2.grid(row=4, column=0, columnspan=6, sticky='e')
+        
+        # Creates label Q3 in row 5, collumn 0 with column span 6 and aligned to left
+        Q3 = Label(self.appdelegate, text = '3. Are you interested in data visualisation?', style="Questionnaire.TLabel")
+        Q3.grid(row=5, column=0, columnspan=6, rowspan=1, sticky='e')
+
+        # Creates label Q4 in row 6, collumn 0 with column span 6 and aligned to left
+        Q4 = Label(self.appdelegate, text = '4. Are you interested in using computing to solve problems?', style="Questionnaire.TLabel")
+        Q4.grid(row=6, column=0, columnspan=6,rowspan=1, sticky='e')
+
+        # Creates label Q5 in row 7, collumn 0 with column span 6 and aligned to left
+        Q5 = Label(self.appdelegate, text = '5. Are you interested in how computer systems fulfill the need of a modern organisation?', style="Questionnaire.TLabel")
+        Q5.grid(row=7, column=0, columnspan=6,rowspan=1, sticky='e')
+
+        # Creates label Q6 in row 8, collumn 0 with column span 6 and aligned to left
+        Q6 = Label(self.appdelegate, text = '6. Are you interested in cloud (cluster - high performance) computing and the opportunities this presents?', style="Questionnaire.TLabel")
+        Q6.grid(row=8, column=0, columnspan=6,rowspan=1, sticky='e')
+
+        # Creates label Q7 in row 9, collumn 0 with column span 6 and aligned to left
+        Q7 = Label(self.appdelegate, text = '7. Are you interested in preventing computer based crime?', style="Questionnaire.TLabel")
+        Q7.grid(row=9, column=0, columnspan=6,rowspan=1, sticky='e')
+
+        # Creates label Q8 in row 10, collumn 0 with column span 6 and aligned to left
+        Q8 = Label(self.appdelegate, text = '8. Are you interested in the more theoretical aspects of computer science?', style="Questionnaire.TLabel")
+        Q8.grid(row=10, column=0, columnspan=6,rowspan=1, sticky='e')
+
+        # Creates label Q9 in row 11, collumn 0 with column span 6 and aligned to left
+        Q9 = Label(self.appdelegate, text = '9. Do you enjoying working in a team?', style="Questionnaire.TLabel")
+        Q9.grid(row=11, column=0, columnspan=6,rowspan=1, sticky='e')
+
+        # Creates label Q10 in row 12, collumn 0 with column span 6 and aligned to left
+        Q10 = Label(self.appdelegate, text = '10. Have you read anything you feel pertinent to the field of computer science?', style="Questionnaire.TLabel")
+        Q10.grid(row=12, column=0, columnspan=6,rowspan=1, sticky='e')
+
+        # Calls clear_response to set all radio buttons as blank
+        self.clear_response()
+
+    """
+    "" @name: Radio Buttons
+    "" @author: Ryan Day
+    "" @description: A method to create radio buttons for yes and no answers
+    "" @prams: none
+    "" @return: Void
+    """
+
+    def radio_buttons(self):
+        
+        # Creates radio button in row 4, column 6 with value 1
+        R1Q2 = TK.Radiobutton(self.appdelegate, variable=self.varQ2, value=1)
+        R1Q2.grid(row=4, column=6)
+
+        # Creates radio button in row 4, column 8 with value 0 and alignment right
+        R2Q2 = TK.Radiobutton(self.appdelegate, variable=self.varQ2, value=0)
+        R2Q2.grid(row=4, column=8, sticky='w')
+
+        # Creates radio button in row 5, column 6 with value 1
+        R1Q3 = TK.Radiobutton(self.appdelegate, variable=self.varQ3, value=1)
+        R1Q3.grid(row=5, column=6)
+
+        # Creates radio button in row 5, column 8 with value 0 and alignment right
+        R2Q3 = TK.Radiobutton(self.appdelegate, variable=self.varQ3, value=0)
+        R2Q3.grid(row=5, column=8, sticky='w')
+
+        # Creates radio button in row 6, column 6 with value 1
+        R1Q4 = TK.Radiobutton(self.appdelegate, variable=self.varQ4, value=1)
+        R1Q4.grid(row=6, column=6)
+
+        # Creates radio button in row 6, column 8 with value 0 and alignment right
+        R2Q4 = TK.Radiobutton(self.appdelegate, variable=self.varQ4, value=0)
+        R2Q4.grid(row=6, column=8, sticky='w')
+
+        # Creates radio button in row 7, column 6 with value 1
+        R1Q5 = TK.Radiobutton(self.appdelegate, variable=self.varQ5, value=1)
+        R1Q5.grid(row=7, column=6)
+
+        # Creates radio button in row 7, column 8 with value 0 and alignment right
+        R2Q5 = TK.Radiobutton(self.appdelegate, variable=self.varQ5, value=0)
+        R2Q5.grid(row=7, column=8, sticky='w')
+
+        # Creates radio button in row 8, column 6 with value 1
+        R1Q6 = TK.Radiobutton(self.appdelegate, variable=self.varQ6, value=1)
+        R1Q6.grid(row=8, column=6)
+
+        # Creates radio button in row 8, column 8 with value 0 and alignment right
+        R2Q6 = TK.Radiobutton(self.appdelegate, variable=self.varQ6, value=0)
+        R2Q6.grid(row=8, column=8, sticky='w')
+
+        # Creates radio button in row 9, column 6 with value 1
+        R1Q7 = TK.Radiobutton(self.appdelegate, variable=self.varQ7, value=1)
+        R1Q7.grid(row=9, column=6)
+
+        # Creates radio button in row 9, column 8 with value 0 and alignment right
+        R2Q7 = TK.Radiobutton(self.appdelegate, variable=self.varQ7, value=0)
+        R2Q7.grid(row=9, column=8, sticky='w')
+
+        # Creates radio button in row 10, column 6 with value 1
+        R1Q8 = TK.Radiobutton(self.appdelegate, variable=self.varQ8, value=1)
+        R1Q8.grid(row=10, column=6)
+
+        # Creates radio button in row 10, column 8 with value 0 and alignment right
+        R2Q8 = TK.Radiobutton(self.appdelegate, variable=self.varQ8, value=0)
+        R2Q8.grid(row=10, column=8, sticky='w')
+
+        # Creates radio button in row 11, column 6 with value 1
+        R1Q9 = TK.Radiobutton(self.appdelegate, variable=self.varQ9, value=1)
+        R1Q9.grid(row=11, column=6)
+
+        # Creates radio button in row 11, column 8 with value 0 and alignment right
+        R2Q9 = TK.Radiobutton(self.appdelegate, variable=self.varQ9, value=0)
+        R2Q9.grid(row=11, column=8, sticky='w')
+
+        # Creates radio button in row 12, column 6 with value 1
+        R1Q10 = TK.Radiobutton(self.appdelegate, variable=self.varQ10, value=1)
+        R1Q10.grid(row=12, column=6)
+
+        # Creates radio button in row 12, column 8 with value 0 and alignment right
+        R2Q10 = TK.Radiobutton(self.appdelegate, variable=self.varQ10, value=0)
+        R2Q10.grid(row=12, column=8, sticky='w')
+
     """
     "" @name: Clear Response
     "" @author: Craig Harris
@@ -168,6 +339,126 @@ class Questionnaire():
         else:
             tkMessageBox.showwarning("Entry Error", strMsg)
 
+    """
+    "" @name: Listbox select
+    "" @author: Ryan Day
+    "" @description: Adds weighting to items in dictionary for when certain items in List box are selected
+    "" @prams: Item within list box selected event
+    "" @return: Event
+    """
+
+    def on_listbox_select(self, event):
+        
+        # Defines "selection" integer
+        selection = int(self.listbox_select.curselection()[0])
+
+        # Clears previous selection
+        self.selection_array = {} 
+
+        # If choice 1 in list box is chosen, dictionary is appeneded
+        if selection == 0:  
+            self.selection_array['BSc Computer Science with High Performance Computing'] = 2
+            self.selection_array['BSc Computer Science with Security and Forensics'] = 1
+        
+        # If choice 2 in list box is chosen, dictionary is appeneded
+        if selection == 1:  
+            self.selection_array['BSc Software Engineering'] = 3
+            self.selection_array['BSc Business Information Systems'] = 1
+
+        # If choice 3 in list box is chosen, dictionary is appeneded
+        if selection == 2:  
+            self.selection_array['BSc Business Information Systems'] = 1
+            self.selection_array['BSc Software Engineering'] = 3
+            self.selection_array['BSc Computer Science with High Performance Computing'] = 2
+            self.selection_array['BSc Computer Science'] = 4
+            self.selection_array['BSc Computer Science with Security and Forensics'] = 3
+            self.selection_array['BSc Joint Honours Computing & Mathematics'] = 3
+
+        # If choice 4 in list box is chosen, dictionary is appeneded
+        if selection == 3:  
+            self.selection_array['BSc Business Information Systems'] = 1
+
+        # If choice 5 in list box is chosen, dictionary is appeneded
+        if selection == 4:  
+            self.selection_array['BSc Business Information Systems'] = 2
+            self.selection_array['BSc Computer Science'] = 2
+            self.selection_array['BSc Software Engineering'] = 3
+
+        # If choice 6 in list box is chosen, dictionary is appeneded
+        if selection == 5:  
+            self.selection_array['BSc Computer Science'] = 3
+            self.selection_array['BSc Computer Science with High Performance Computing'] = 2
+            self.selection_array['BSc Computer Science with Security and Forensics'] = 2
+            self.selection_array['BSc Computer Science with Visual Computing'] = 4
+            self.selection_array['BSc Joint Honours Computing & Mathematics'] = 3
+
+        # If choice 7 in list box is chosen, dictionary is appeneded
+        if selection == 6:  
+            self.selection_array['BSc Computer Science'] = 2
+            self.selection_array['BSc Computer Science with High Performance Computing'] = 3
+            self.selection_array['BSc Computer Science with Security and Forensics'] = 2
+            self.selection_array['BSc Computer Science with Visual Computing'] = 2
+
+    """
+    "" @name: Evaluate course dictionary
+    "" @author: Ryan Day
+    "" @description: Adds weighting to items in dictionary for when certain radio buttons are selected
+    "" @prams: none 
+    "" @return: Void
+    """
+
+    def evaluate_course_dictionary(self):
+
+        # If "yes" radio button is chosen, dictionary is appeneded
+        if self.varQ2.get() == 1:
+            self.results['BSc Computer Science'] += 3
+            self.results['BSc Software Engineering'] += 3
+
+        # If "yes" radio button is chosen, dictionary is appeneded
+        if self.varQ3.get() == 1:
+            self.results['BSc Computer Science'] += 4
+            self.results['BSc Computer Science with Visual Computing'] += 2
+
+        # If "yes" radio button is chosen, dictionary is appeneded
+        if self.varQ4.get() == 1:
+            self.results['BSc Joint Honours Computing & Mathematics'] += 1
+            self.results = {i: self.results[i] + 1 for i in self.results}
+
+        # If "yes" radio button is chosen, dictionary is appeneded
+        if self.varQ5.get() == 1:
+            self.results['BSc Business Information Systems'] += 2
+
+        # If "yes" radio button is chosen, dictionary is appeneded
+        if self.varQ6.get() == 1:
+            self.results['BSc Computer Science with High Performance Computing'] += 3
+
+        # if "yes" radio button is chosen, dictionary is appeneded
+        if self.varQ7.get() == 1:
+            self.results['BSc Computer Science with Security and Forensics'] += 3
+
+        # if "yes" radio button is chosen, dictionary is appeneded
+        if self.varQ8.get() == 1:
+            self.results['BSc Joint Honours Computing & Mathematics'] += 2
+            self.results['BSc Computer Science with Visual Computing'] += 2
+            
+        # if "no" radio button is chosen, dictionary is appeneded
+        elif self.varQ8.get() == 0:
+            self.results['BSc Software Engineering'] += 2
+            self.results['BSc Business Information Systems'] += 2
+
+        # if "yes" radio button is chosen, dictionary is appeneded
+        if self.varQ9.get() == 1:
+            self.results['BSc Software Engineering'] += 2
+            self.results['BSc Business Information Systems'] += 2
+
+        # if "yes" radio button is chosen, dictionary is appeneded
+        if self.varQ10.get() == 1:
+            self.results['BSc Computer Science'] += 1
+
+        # Add in selection box
+        for index in self.selection_array:
+            self.results[index] += self.selection_array[index]
+            
     """
     "" @name: Create Buttons
     "" @author: Craig Harris
@@ -293,3 +584,13 @@ class Questionnaire():
         butClear = Button(self.appdelegate, text='Restart', style="Admin.TButton")
         butClear['command'] = self.draw
         butClear.grid(row=17, column=8, columnspan=2, pady=[5, 30], sticky="se")
+
+
+
+
+
+
+
+
+
+        
