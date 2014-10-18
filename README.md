@@ -1,5 +1,6 @@
 Cardiff-Logic-Test
 ==================
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/DanielKoehler/Cardiff-Logic-Test?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A project for Quality Software Development developing a piece of software with a logic reasoning test and questionnaire for use at a careers fair.
 
